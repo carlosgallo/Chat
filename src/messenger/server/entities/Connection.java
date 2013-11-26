@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class Connection extends Thread{
     private TCP_Service server;
     private int idClient;    
+    private String clientName;
     private Socket socket;
     private DataInputStream inputStream;
     private DataOutputStream ouputStream;
@@ -22,7 +23,7 @@ public class Connection extends Thread{
     //Inicializa los flujos de entrada y salida de la conexion.
     public Connection(TCP_Service server, Socket socket){
         this.server = server;
-        //this.idClient = idClient;
+        //this.idClient = idClient;        
         this.socket = socket;
         this.createStreams(socket);
     }
@@ -58,6 +59,14 @@ public class Connection extends Thread{
             Logger.getLogger(ex.getMessage());
         }
     }        
+    
+    public String getClientName(){
+        return this.clientName;
+    }
+    
+    public void setClientName(String clientName){
+        this.clientName = clientName;
+    }
     
     //Lanza un hilo en el que la conexion esta constatnemente a la espera de un flujo de entrada.
     @Override

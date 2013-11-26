@@ -28,6 +28,7 @@ public class Client extends Thread {
         this.name = name;
         this.createSocket(host);
         this.createStreams(this.socket);
+        this.sendName();
         
         frame = new FrameClient(this);
     }
@@ -71,6 +72,11 @@ public class Client extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(ex.getMessage());
         }
+    }
+    
+    //Metodo para enviar el nombre del cliente.
+    private void sendName(){
+        this.outString(this.name);
     }
     
     //Metodos GET de la id del cliente y el nombre del mismo.
