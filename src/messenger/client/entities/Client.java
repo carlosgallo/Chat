@@ -22,6 +22,7 @@ public class Client extends Thread {
     
     private FrameClient frame;
     
+    //Constructor del Client, se le pasa la id del cliente, el nombre y el host al que se conecta.
     public Client(int id, String name, String host){
         this.id = id;
         this.name = name;
@@ -31,6 +32,7 @@ public class Client extends Thread {
         frame = new FrameClient(this);
     }
     
+    //Crea el socket del cliente, se le pasa el nombre del host al que se conecta y entra siempre al puerto 5000.
     private void createSocket(String host){
         try {
             socket = new Socket(host, 5000);
@@ -39,6 +41,7 @@ public class Client extends Thread {
         }       
     }
     
+    //Crea los flujos de entrada y salida para el cliente.
     private void createStreams(Socket socket){        
         try {
             inputStream = new DataInputStream(socket.getInputStream());
@@ -48,6 +51,7 @@ public class Client extends Thread {
         }
     }        
     
+    //Metodo para recibir un flujo de entrada, devuelve el string recibido.
     public String inString(){
         String cadenaRecibe = null;
         
@@ -60,6 +64,7 @@ public class Client extends Thread {
         return cadenaRecibe;
     }
     
+    //Metodo para la salida de un flujo, se le pasa como parametro el texto que se quiere enviar.
     public void outString(String text){
         try {            
             ouputStream.writeUTF(text);
@@ -67,7 +72,8 @@ public class Client extends Thread {
             Logger.getLogger(ex.getMessage());
         }
     }
-
+    
+    //Metodos GET de la id del cliente y el nombre del mismo.
     public int getIdClient() {
         return id;
     }
@@ -75,6 +81,7 @@ public class Client extends Thread {
         return name;
     }        
     
+    //Lanza un hilo en el que el cliente esta constatnemente a la espera de un flujo de entrada.
     @Override
     public void run() {
         while(true){

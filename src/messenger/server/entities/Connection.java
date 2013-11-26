@@ -18,6 +18,8 @@ public class Connection extends Thread{
     private DataInputStream inputStream;
     private DataOutputStream ouputStream;
     
+    //Constructor de la conexion, se le pasa el servidor que la inicializa y el socket del cliente.
+    //Inicializa los flujos de entrada y salida de la conexion.
     public Connection(TCP_Service server, Socket socket){
         this.server = server;
         //this.idClient = idClient;
@@ -25,6 +27,7 @@ public class Connection extends Thread{
         this.createStreams(socket);
     }
     
+    //Ccrea los flujos de entrada y salida de la conexion.
     private void createStreams(Socket socket){        
         try {
             inputStream = new DataInputStream(socket.getInputStream());
@@ -34,6 +37,7 @@ public class Connection extends Thread{
         }
     }  
     
+    //Metodo para recibir un flujo de entrada, devuelve el string recibido.
     public String inString(){
         String cadenaRecibe = null;
         
@@ -46,6 +50,7 @@ public class Connection extends Thread{
         return cadenaRecibe;
     }
     
+    //Metodo para la salida de un flujo, se le pasa como parametro el texto que se quiere enviar.
     public void outString(String text){
         try {            
             ouputStream.writeUTF(text);
@@ -54,6 +59,7 @@ public class Connection extends Thread{
         }
     }        
     
+    //Lanza un hilo en el que la conexion esta constatnemente a la espera de un flujo de entrada.
     @Override
     public void run() {
         while(true){

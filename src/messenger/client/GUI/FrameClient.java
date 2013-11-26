@@ -27,13 +27,14 @@ public class FrameClient extends JFrame{
     private JList userList = new JList(listModel);
     private JScrollPane listPane = new JScrollPane(userList);
     
-    
+    //Constructor del frame del cliente, se le pasa el cliente.
     public FrameClient(Client client){
         this.client = client;
         this.configureContentPane();
         this.createAndShowGUI();
     }
     
+    //Crea y muestra el frame.
     private void createAndShowGUI(){                
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);                
         this.getContentPane().setBackground(Color.GRAY);        
@@ -43,10 +44,12 @@ public class FrameClient extends JFrame{
         this.setVisible(true);        
     }
     
+    //Configura y añade los elementos del panel del frame.
     private void configureContentPane(){
         this.getContentPane().setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         
+        //Configura y añade el TextArea donde se muestran los mensajes recibidos.
         constraints.gridx = 0;
         constraints.gridy = 0;        
         constraints.gridwidth = 2;
@@ -55,6 +58,7 @@ public class FrameClient extends JFrame{
         constraints.weighty = 1.0;
         this.getContentPane().add(friendDisplay, constraints);
         
+        //Configura y añade el TextArea donde se escriben los mensajes que se quieren enviar.
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 2;
@@ -64,6 +68,8 @@ public class FrameClient extends JFrame{
         ownDisplay.addKeyListener(send);
         this.getContentPane().add(ownDisplay, constraints);                
         
+        //Configura y añade la lista donde se mostraran los clientes conectados al servidor.
+        //TODO: lograr que se añada el nombre de los clientes conectados al servidor.
         constraints.gridx = 2;
         constraints.gridy = 0;        
         constraints.gridwidth = 1;
@@ -73,7 +79,8 @@ public class FrameClient extends JFrame{
         listPane.setPreferredSize(new Dimension(150, 450));
         this.getContentPane().add(listPane, constraints);       
     }   
-
+    
+    //Metodos GET de los TextArea FriendDisplay y OwnDisplay, del listModel, userList y listPane.
     public TextArea getFriendDisplay() {
         return friendDisplay;
     }
@@ -90,10 +97,13 @@ public class FrameClient extends JFrame{
         return listPane;
     }
     
+    //Reinicia el TextArea ownDisplay y lo deja vacio.
     public void resetOwnDisplay(){
         ownDisplay.setText("");
     }
     
+    //KeyListener para enviar los mensajes escritos en el ownDisplay.
+    //TODO: Lograr que no meta un salto de carro cuando se envia el mensaje.
     KeyListener send = new KeyListener(){             
         @Override
         public void keyTyped(KeyEvent ke) {                 

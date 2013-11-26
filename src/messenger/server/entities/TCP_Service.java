@@ -17,10 +17,12 @@ public class TCP_Service extends Thread{
     private Socket clientSocket;
     private ArrayList<Connection> storeConnections = new <Connection>ArrayList();
     
+    //Constructor del TCP_Service, crea el socket del servidor.
     public TCP_Service(){
         this.createSocketServidor();        
     }
     
+    //Crea el socket del servidor.
     private void createSocketServidor(){
         try {
             socketServidor = new ServerSocket(5000);
@@ -29,6 +31,7 @@ public class TCP_Service extends Thread{
         }
     }
     
+    //Metodo que espera una conexion y la inicializa.
     private void newClient() throws IOException{
         System.out.println("Esperando conexion");
         clientSocket = socketServidor.accept();
@@ -38,11 +41,13 @@ public class TCP_Service extends Thread{
         System.out.println("Conectado");        
     }
     
+    //Envia un mensaje a todas las conexiones.
     public void sendMenssage(String menssage){
         for(int i=0; i<storeConnections.size(); i++)
             storeConnections.get(i).outString(menssage);
     }
     
+    //Lanza un hilo con un bucle en el que se espera una conexion.
     @Override
     public void run() {
         while(true){
