@@ -33,13 +33,13 @@ public class TCP_Service extends Thread{
     
     //Metodo que espera una conexion y la inicializa.
     private void newClient() throws IOException{
-        System.out.println("Esperando conexion");
+        System.out.println("Esperando conexion..");
         clientSocket = socketServidor.accept();
         Connection newClient = new Connection(this, clientSocket);
-        checkClientName(newClient);        
-        storeConnections.add(newClient);
-        storeConnections.get(storeConnections.size() - 1).start();
-        System.out.println("Conectado");        
+        checkClientName(newClient);     
+        newClient.start();
+        storeConnections.add(newClient);        
+        System.out.println("Conectado: " + newClient.getClientName());        
     }
     
     //Espera a que el cliente envie su nombre para editar el nombre de la conexion.
