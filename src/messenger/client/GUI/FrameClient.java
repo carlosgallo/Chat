@@ -21,11 +21,11 @@ import messenger.client.entities.Client;
 public class FrameClient extends JFrame{
     private Client client;
     
-    private TextArea friendDisplay = new TextArea();
+    private final TextArea friendDisplay = new TextArea();
     private TextArea ownDisplay = new TextArea();    
-    private DefaultListModel listModel = new DefaultListModel();
-    private JList userList = new JList(listModel);
-    private JScrollPane listPane = new JScrollPane(userList);
+    private final DefaultListModel listModel = new DefaultListModel();
+    private final JList userList = new JList(listModel);
+    private final JScrollPane listPane = new JScrollPane(userList);
     
     //Constructor del frame del cliente, se le pasa el cliente.
     public FrameClient(Client client){
@@ -111,7 +111,7 @@ public class FrameClient extends JFrame{
         @Override
         public void keyPressed(KeyEvent ke) {
             if(ke.getKeyCode() == 10){                 
-                client.outString("<" + client.getNameClient()+ "> : " + ownDisplay.getText() + "\n");                               
+                client.getFlow().outString(ownDisplay.getText() + "\n");                               
                 resetOwnDisplay();
             } 
         }

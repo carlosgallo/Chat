@@ -17,10 +17,10 @@ public class Messenger {
         TCP_Service server = new TCP_Service();        
         server.start();        
 
-        Client client2 = new Client(1, "Pablo", "localhost");
+        Client client2 = new Client("Milo", "localhost");
         client2.start();
         
-        Client client3 = new Client(1, "Lucia", "localhost");
+        Client client3 = new Client("Darwin", "localhost");
         client3.start();
     }
 }

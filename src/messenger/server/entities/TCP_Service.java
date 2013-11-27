@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public class TCP_Service extends Thread{
     private ServerSocket socketServidor;
     private Socket clientSocket;
-    private ArrayList<Connection> storeConnections = new <Connection>ArrayList();
+    private final ArrayList<Connection> storeConnections = new <Connection>ArrayList();
     
     //Constructor del TCP_Service, crea el socket del servidor.
     public TCP_Service(){
@@ -33,28 +33,30 @@ public class TCP_Service extends Thread{
     
     //Metodo que espera una conexion y la inicializa.
     private void newClient() throws IOException{
-        //System.out.println("Esperando conexion");
+        System.out.println("Esperando conexion");
         clientSocket = socketServidor.accept();
         Connection newClient = new Connection(this, clientSocket);
-        
+        checkClientName(newClient);        
+        storeConnections.add(newClient);
+        storeConnections.get(storeConnections.size() - 1).start();
+        System.out.println("Conectado");        
+    }
+    
+    //Espera a que el cliente envie su nombre para editar el nombre de la conexion.
+    public void checkClientName(Connection newClient){
         String name = null;
         
         while(name == null){
-            name = newClient.inString();
-            if(name != null){
-                newClient.setClientName(name);
-                System.out.println(newClient.getClientName());
-            }
+            name = newClient.getFlow().inString();
+            if(name != null)
+                newClient.setClientName(name);                            
         }
-        storeConnections.add(newClient);
-        storeConnections.get(storeConnections.size() - 1).start();
-        //System.out.println("Conectado");        
     }
     
     //Envia un mensaje a todas las conexiones.
     public void sendMenssage(String menssage){
         for(int i=0; i<storeConnections.size(); i++)
-            storeConnections.get(i).outString(menssage);
+            storeConnections.get(i).getFlow().outString(menssage);
     }
     
     //Lanza un hilo con un bucle en el que se espera una conexion.
